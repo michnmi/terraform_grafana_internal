@@ -21,7 +21,7 @@ variable "env" {
 
 resource "libvirt_volume" "grafana" {
   provider         = libvirt.vmhost01
-  name             = "grafana-${var.env}.qcow2"
+  name             = "grafana_${var.env}.qcow2"
   pool             = var.env
   base_volume_name = "grafana_base.qcow2"
   format           = "qcow2"
@@ -30,7 +30,7 @@ resource "libvirt_volume" "grafana" {
 
 resource "libvirt_domain" "grafana" {
   provider  = libvirt.vmhost01
-  name      = "grafana-${var.env}"
+  name      = "grafana_${var.env}"
   memory    = "512"
   vcpu      = 1
   autostart = true
@@ -39,7 +39,7 @@ resource "libvirt_domain" "grafana" {
   network_interface {
     macvtap  = "enp0s25"
     mac      = "52:54:00:EA:17:57"
-    hostname = "grafana-${var.env}"
+    hostname = "grafana_${var.env}"
   }
 
   network_interface {
