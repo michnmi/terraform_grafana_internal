@@ -12,7 +12,12 @@ provider "libvirt" {
   alias = "vmhost01"
   uri   = "qemu+ssh://jenkins_automation@vmhost01/system?keyfile=../id_ed25519_jenkins"
   // uri   = "qemu+ssh://vmhost01/system"
+}
 
+provider "libvirt" {
+  alias = "vmhost02"
+  uri   = "qemu+ssh://jenkins_automation@vmhost02/system?keyfile=../id_ed25519_jenkins"
+  // uri   = "qemu+ssh://vmhost02/system"
 }
 
 variable "env" {
@@ -20,7 +25,7 @@ variable "env" {
 }
 
 resource "libvirt_volume" "grafana" {
-  provider         = libvirt.vmhost01
+  provider         = libvirt.vmhost02
   name             = "grafana_${var.env}.qcow2"
   pool             = var.env
   base_volume_name = "grafana_base.qcow2"
@@ -29,15 +34,15 @@ resource "libvirt_volume" "grafana" {
 }
 
 resource "libvirt_domain" "grafana" {
-  provider  = libvirt.vmhost01
+  provider  = libvirt.vmhost02
   name      = "grafana_${var.env}"
   memory    = "512"
-  vcpu      = 1
+  vcpu      = 2
   autostart = true
 
   // The MAC here is given an IP through mikrotik
   network_interface {
-    macvtap  = "enp0s25"
+    macvtap  = "enp3s0"
     mac      = "52:54:00:EA:17:57"
     hostname = "grafana_${var.env}"
   }
