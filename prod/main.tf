@@ -37,7 +37,7 @@ resource "libvirt_domain" "grafana" {
   provider  = libvirt.vmhost01
   name      = "grafana_${var.env}"
   memory    = "256"
-  vcpu      = 1
+  vcpu      = 2
   autostart = true
 
   // The MAC here is given an IP through mikrotik
