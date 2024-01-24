@@ -36,7 +36,7 @@ resource "libvirt_volume" "grafana" {
 resource "libvirt_domain" "grafana" {
   provider  = libvirt.vmhost01
   name      = "grafana_${var.env}"
-  memory    = "256"
+  memory    = "384"
   vcpu      = 2
   autostart = true
 
